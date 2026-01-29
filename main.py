@@ -6,6 +6,8 @@ import psutil
 import pystray as ps
 from PIL import Image
 
+widgetW = 250
+widgetH = 30
 updateInterval = 1000
 iconLow = "icons/logo-low.ico"
 iconMedium = "icons/logo-medium.ico"
@@ -38,14 +40,17 @@ def updateTrayIcon(icon, cpu):
 root = tk.Tk()
 root.overrideredirect(True)
 root.attributes("-topmost", True)
-root.geometry("300x40+800+400")
+
+screenWidth = root.winfo_screenwidth()
+x = (screenWidth // 2) - (widgetW // 2)
+root.geometry(f"{widgetW}x{widgetH}+{x}+0")
 root.resizable(False, False)
 
 container = tk.Frame(root)
-container.pack(padx=4, pady=4)
+container.pack(padx=2, pady=2)
 
 statsFrame = tk.Frame(container)
-statsFrame.pack(anchor="w", pady=(5, 0))
+statsFrame.pack(anchor="w", pady=(4, 0))
 
 cpuLabel = tk.Label(statsFrame, text="CPU: --%")
 cpuLabel.pack(side=tk.LEFT, padx=(0, 10))
