@@ -1,45 +1,76 @@
+import threading
 import tkinter as tk
-import pystray as ps
-import psutil
+
 import GPUtil
+import psutil
+import pystray as ps
+from PIL import Image
+
+updateInterval = 1000
+iconLow = "icons/logo-low.ico"
+iconMedium = "icons/logo-medium.ico"
+iconHigh = "icons/logo-high.ico"
+
+def getUsage():
+    cpu = psutil.cpu_percent()
+    ram = psutil.virtual_memory().percent
+    gpus = GPUtil.getGPUs()
+    gpu = int(gpus[0].load * 100) if gpus else None
+    return cpu, ram, gpu
+
+def createTrayIcon(onQuit):
+    return ps.Icon(
+        "SystemMonitor",
+        Image.open(iconLow),
+        "System Monitor",
+        menu=ps.Menu(ps.MenuItem("Quit", onQuit)),
+    )
+
+def updateTrayIcon(icon, cpu):
+    if cpu > 80:
+        icon.icon = Image.open(iconHigh)
+    elif cpu > 50:
+        icon.icon = Image.open(iconMedium)
+    else:
+        icon.icon = Image.open(iconLow)
+    icon.title = f"CPU Usage: {cpu}%"
 
 root = tk.Tk()
 root.overrideredirect(True)
 root.attributes("-topmost", True)
-root.geometry("320x80")
-root.geometry("+800+400")
+root.geometry("300x40+800+400")
 root.resizable(False, False)
 
-label = tk.Label(root, text="System Usage Stats")
-label.pack(padx=5, pady=5)
+container = tk.Frame(root)
+container.pack(padx=4, pady=4)
 
-cpuLabel = tk.Label(root, text="CPU: 0%")
-cpuLabel.pack(side=tk.LEFT, padx=10)
+statsFrame = tk.Frame(container)
+statsFrame.pack(anchor="w", pady=(5, 0))
 
-gpuLabel = tk.Label(root, text="GPU: 0%")
-gpuLabel.pack(side=tk.LEFT, padx=10)
+cpuLabel = tk.Label(statsFrame, text="CPU: --%")
+cpuLabel.pack(side=tk.LEFT, padx=(0, 10))
 
-ramLabel = tk.Label(root, text="RAM: 0%")
-ramLabel.pack(side=tk.LEFT, padx=10)
+gpuLabel = tk.Label(statsFrame, text="GPU: --%")
+gpuLabel.pack(side=tk.LEFT, padx=(0, 10))
 
-def getUsage():
-    CPU = psutil.cpu_percent()
-    gpus = GPUtil.getGPUs()
-    GPU = gpus[0].load * 100 if gpus else None
-    RAM = psutil.virtual_memory().percent
-    return [CPU, GPU, RAM]
+ramLabel = tk.Label(statsFrame, text="RAM: --%")
+ramLabel.pack(side=tk.LEFT)
 
-def updateUsage():
-    usageValues = getUsage()
-    cpuLabel.config(text=f"CPU: {usageValues[0]}%")
-    if usageValues[1] is not None:
-        gpuLabel.config(text=f"GPU: {usageValues[1]}%")
-    else:
-        gpuLabel.config(text="GPU: N/A")
-    ramLabel.config(text=f"RAM: {usageValues[2]}%")
-    print(usageValues[0], usageValues[1], usageValues[2])
-    root.after(1000, updateUsage)
+def update():
+    cpu, ram, gpu = getUsage()
+    cpuLabel.config(text=f"CPU: {cpu}%")
+    ramLabel.config(text=f"RAM: {ram}%")
+    gpuLabel.config(text=f"GPU: {gpu}%" if gpu is not None else "GPU: N/A")
+    updateTrayIcon(trayIcon, cpu)
+    root.after(updateInterval, update)
 
-updateUsage()
+def quitApp(icon=None, item=None):
+    trayIcon.stop()
+    root.quit()
 
+trayIcon = createTrayIcon(quitApp)
+threading.Thread(target=trayIcon.run, daemon=True).start()
+
+update()
 root.mainloop()
+
