@@ -1,7 +1,4 @@
 __pycache__/
 svgs/
-build/
-dist/
-releases/
 create_icon.py
 main.spec
