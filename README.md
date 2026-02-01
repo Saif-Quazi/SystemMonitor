@@ -3,8 +3,6 @@
 A lightweight, always-on-top system monitoring widget for Windows.
 Displays CPU, GPU, and RAM usage in real time.
 
-<b>This project does NOT release executables.</b> [Why?](#why-no-executable)
-
 ## Quick start (recommended)
 
 1. Install <b>Python 3.10+</b>
@@ -16,12 +14,6 @@ Displays CPU, GPU, and RAM usage in real time.
 pip install -r requirements.txt
 pythonw main.py
 ```
-
-
-## Why no executable?
-
-Unsigned executables are flagged by antivirus software and some browsers.
-Running from source avoids those issues and ensures transparency.
 
 ## Dependencies
 

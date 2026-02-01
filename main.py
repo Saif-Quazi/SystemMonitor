@@ -4,9 +4,9 @@ import GPUtil
 import psutil
 import pystray as ps
 from PIL import Image
-from PySide6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QCheckBox, QSlider, QPushButton, QDialog, QFrame
-from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont, QIcon
-from PySide6.QtCore import Qt, QTimer, QPoint, QRect, QSize
+from PySide6.QtWidgets import QApplication, QWidget
+from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont
+from PySide6.QtCore import Qt, QTimer, QRect
 
 from pystray import Icon as TrayIcon
 

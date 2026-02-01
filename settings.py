@@ -1,8 +1,8 @@
 import json
 import os
 import sys
-from PySide6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QCheckBox, QSlider, QPushButton, QDialog, QFrame, QComboBox
-from PySide6.QtCore import Qt, QSize
+from PySide6.QtWidgets import QApplication, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QDialog, QFrame, QComboBox
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QPalette, QColor
 
 
@@ -68,7 +68,7 @@ def get_dark_styles():
         border-radius: 0px;
     }}
     QComboBox::down-arrow {{
-        image: url({resource_path('assets/svgs/arrow.svg')});
+        image: url({resource_path('assets/icons/arrow.svg')});
         width: 12px;
         height: 12px;
     }}

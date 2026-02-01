@@ -2,3 +2,13 @@ __pycache__/
 svgs/
 create_icon.py
 main.spec
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Release archives
+*.zip
+*.exe
+SystemMonitor-*/

@@ -3,7 +3,7 @@
         "name": "default",
         "showValues": [
             true,
-            true,
+            false,
             true
         ],
         "bgColor": "#1e1e1e",
