@@ -2,3 +2,4 @@ psutil
 GPUtil
 pystray
 Pillow
+PySide6

@@ -1,0 +1,14 @@
+{
+    "profile": {
+        "name": "default",
+        "showValues": [
+            true,
+            true,
+            true
+        ],
+        "bgColor": "#1e1e1e",
+        "fgColor": "#ffffff",
+        "font": "Roboto",
+        "fontSize": 12
+    }
+}
